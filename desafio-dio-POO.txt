@@ -1,0 +1,266 @@
+desafio-dio-POO
+
+public class Main {
+	public static void main(String[] args){
+		Curso curso1 = new Curso();
+		curso1.setTitulo("curso java");
+		curso1.setDescricao("descricao curso java");
+		curso1.setCargaHoraria(8);
+		
+		Curos curso2 = new Curso();
+		curso2.setTitulo("curso javaScript");
+		curso2.setDescricao("descricao curso javaScript");
+		curso2.setCargaHoraria(4);
+		
+		Mentoria mentoria = new Mentoria();
+		mentoria.setTutulo("mentoria java");
+		mentoria.setDescricao("descrição mentoria");
+		mentoria.setDate(LocalDate.now());
+		
+		/*Conteudo conteudo = new Curso(); //polimorfismo aqui... Tudo que tenho em Conteudo, eu tenho em Curso, mas nem tudo que tenho em Curso, eu tenho em Conteudo.
+		Conteudo conteudo1 = new Mentoria();*/	
+
+		/*System.out.println(curso1);
+		System.out.println(curso2);
+		System.out.println(mentoria);*/
+		
+		Bootcamp bootcamp = new Bootcamp();
+		bootcamp.setNome("Bootcamp Java Developer");
+		bootcamp.seDrecricao("Descricao Bootcamp Java Developer");
+		bootcamp.getContedos().add(curso1);
+		bootcamp.getConteudos().add(curso2);
+		bootcamp.getConteudos().add(mentoria);
+		
+		Dev devCamila = new Dev();
+		devCamila.setNome("Camila");
+		devCamila.inscreverBootcamp(bootcamp);
+		System.out.println("Conteúdos Inscritos Camila:" + devCamila.getConteudosInscritos());
+		devCamila.progredir();
+		System.out.println("-");
+		System.out.println("Conteúdos Inscritos Camila:" + devCamila.getConteudosInscritos());
+		System.out.println("Conteúdos Concluídos Camila:" + devCamila.getConteudosConcluidos());
+		System.out.println("XP:" + devCamila.calcularTotalXp());
+		
+		System.out.println("--------");
+		
+		Dev devJoao = new Dev();
+		devJoao.setNome("Joao");
+		devJoao.inscreverBootcamp(bootcamp);
+		System.out.println("Conteúdos Inscritos João:" + devJoao.getConteudosInscritos());
+		devJoao.progredir();
+		System.out.println("-");
+		System.out.println("Conteúdos Inscritos João:" + devJoao.getConteudosInscritos());
+		devJoao.progredir();
+		devJoao.progredir();
+		devJoao.progredir();
+		System.out.println("-");
+		System.out.println("Conteúdos Inscritos João:" + devJoao.getConteudosInscritos());
+		System.out.println("Conteúdos Concluidos João:" + devJoao.getConteudosConteudos());
+		System.out.println("XP:" + devJoao.calcularTotalXp());
+		
+		
+	}
+}
+
+-package br.com.dio.desafio.dominio;
+public class Conteudo {
+
+	protected static final double XP_PADRAO = 10d;
+	
+	private String titulo;
+	private String descricao;
+	
+	public abstract double calcularXp(); //abstract impossibilita instanciar "Conteudo conteudo = new Conteudo();" 
+	
+
+}
+
+-package br.com.dio.desafio.dominio;
+
+public class Curso extends Conteudo {
+	private int cargaHoraria;
+
+	@Override
+	public double calculoXp(){
+		return XP_PADRAO * cargaHoraria;
+	}
+	
+	public Curso() {
+	
+	}
+
+	public int getCargaHoraria(){
+		return cargaHoraria;
+	}
+	@Override
+	public String toString(){
+		return "Cursso{" +
+		"titulo='" + titulo + '\' +
+		", descricao='" + descricao + '\'' +
+		", cargaHoraria=" + cargaHoraria +
+		'}';
+	}
+}
+
+-package br.com.dio.desafio.dominio;
+-import java.time.Local.Date;
+
+public class Mentoria extends Conteudo {
+	private LocalDate data;
+
+	@Override
+	public double calculoXp() {
+		return XP_PADRAO + 20d;
+	}
+	
+	public Mentoria() {
+	
+	}
+
+	public LocalDate detdata(){
+		return data;
+	}
+	public void setData(LocalDate data){
+		this.data = data;
+	}
+	@Override
+	public String toString() {
+		return "Mentoria{" +
+		"titulo='" + getTitulo() + '\' +
+		", descricao='" + getDescricao() + '\' +
+		", data=" + data +
+		'}';
+	}
+}
+
+
+-package br.com.dio.desafio.dominio;
+
+public class Bootcamp(){
+	private String nome;
+	private String descricao;
+	private final LocalDate dataInicial = Local.now();
+	private final LocalDate dataFinal = dataInicial.plusDays(45); //.plusDays(45) mais 45 dias
+	private Set<Dev> devsInscritos = new HashSet<>();
+	private Set<Conteudo> conteudos = new LinkedHashSet<>();
+	
+	public String getNome(){
+		return nome;
+	}
+	public void setNome(String nome){
+		this.nome = nome;
+	}
+
+	public String getDescricao(){
+		return descricao;
+	}
+	public void setDescricao(String descricao){
+		this.descricao = descricao;
+	}
+
+	public LocalDate getDataInical(){
+		return dataInicial;
+	}
+	public void setDataInicial(LocalDate dataInicial){
+		this.dataInicial = dataIncial;
+	}
+
+	public LocalDate getDataFinal(){
+		return dataFinal;
+	}
+	public void setDataFinal(LocalDate dataFinal){
+		this.dataFinal = dataFinal;
+	}
+
+	public Set<Dev> getDevsINscritos(){
+		return devsInscritos;
+	}
+	public void setDevsInscritos(Set<Devs> devsInscritos){
+		this.devsInscritos = devsIncritos;
+	}
+
+	public Set<Conteudo> getConteudos(){
+		return conteudos;
+	}
+	public void setConteudos(Set<Conteudo> conteudos){
+		this.conteudos = conteudos;
+	}
+	@Override
+	public boolean equals(Object o){
+		if(this == o) return true;
+		if(o == null || getClass() != o.getClass()) return false;
+		Dev dev = (Dev)o;
+		return Objeto.equals(nome, bootcamp.nome) && Objeto.equals(descricao, bootcamp.descricao) && Objects.equals.(data)
+	}
+	@Override
+	public int hashCode(){
+		return Objeto.hash(nome, descricao, dataFinal, devsInscritos, conteudo);
+	}
+}
+
+-package br.com.dio.desafio.dominio;
+
+public class Dev(){
+
+	private String nome;
+	private Set<Conteudo> conteudoInscritos = new LinkedHashSet<>();
+	private Set<Conteudo> conteudosConcluidos = new LinkedHashSet<>();
+
+	public void inscreverBootcamp(Bootcamp bootcamp){
+		this.conteudosInscritos.addAll(bootcamp.getConteudos());
+		bootcamp.getDevsInscritos().add(this);
+	}
+	public void progredir(){
+		Optional<Conteudo> conteudo = this.conteudosInscritos.stream().findFirst();
+		if(conteudo.isPresent()){
+			this.conteudosConcluidos.add(conteudo.get());
+			this.conteudosINscritos.remove(conteudo.get());
+		}else{
+			System.out.println("Você não está matriculado em nenhum conteúdo!");	
+		}
+	}
+	public void calcularTotalXp(){
+		return this.conteudosConcluidos
+			.stream()
+			.mapToDouble(conteudo -> conteudo.calcular.calcularXp())
+			.sum();
+	}
+
+	public String getNome(){
+		return nome;
+	}
+
+	piblic void setNome(String nome){
+		this.nome = nome;
+	}
+	
+	public Set<Conteudo> getConteudosInscritos(){
+		return conteudosInscritos:
+	}
+	
+	public void setConteudoInscritos(Set<Conteudo> conteudoInscritos){
+		this.conteudoIncritos = conteudoInscritos;
+	}
+
+	public Set<Conteudo> getConteudosConcluidos(){
+		return conteudosConcluidos;
+	}
+	
+	public void setConteudoConcluidos(Set<Conteudo> conteudoConcluidos){
+		this.conteudoConcluido = conteudoConcluidos;
+	}
+	
+	@Override
+	public boolean equals(Object o){
+		if(this == o) return true;
+		if(o == null || getClass() != o.getClass()) return false;
+		Dev dev = (Dev)o;
+		return Objeto.equals(nome, dev.nome) && Objeto.equals(conteudoInscritos, dev.conteudoInscritos) && Objects.equals.()
+	}
+	@Override
+	public int hashCode(){
+		return Objeto.hash(nome, conteudoINscritos, conteudosConcluidos);
+	}
+
+
+}
